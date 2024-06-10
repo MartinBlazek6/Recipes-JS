@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt App</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/about}">About</a></li>
+            <li><a th:href="@{/contact}">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>Hi all</h1>
+        <p>Keep track of all your receipts easily and efficiently.</p>
+        <a href="#features" class="button">Learn More</a>
+    </section>
+
+    <section id="features" class="features">
+        <h2>Features</h2>
+        <div class="feature">
+            <h3>Easy to Use</h3>
+            <p>Our app is user-friendly and intuitive.</p>
+        </div>
+        <div class="feature">
+            <h3>Secure</h3>
+            <p>All your data is safe and secure.</p>
+        </div>
+        <div class="feature">
+            <h3>Accessible Anywhere</h3>
+            <p>Access your receipts from any device.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 Receipt App. All rights reserved.</p>
+</footer>
+
+<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>
