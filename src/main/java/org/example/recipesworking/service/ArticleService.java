@@ -47,7 +47,9 @@ public interface ArticleService {
      * @param gramsToBeRemoved the number of grams to be removed from the article
      * @return the updated article
      */
-    Article updateArticleGrams(Long articleId, Integer gramsToBeRemoved);
+    Article removeArticleGrams(Long articleId, Integer gramsToBeRemoved);
+
+    Article raiseQuantityOfArticleGrams(Article article, Integer gramsToBeRaised);
 
     /**
      * Gets all articles from storage

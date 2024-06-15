@@ -2,14 +2,12 @@ package org.example.recipesworking.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.recipesworking.exceptions.ArticleGramsOutOfBoundsException;
 import org.example.recipesworking.model.Article;
 import org.example.recipesworking.repository.ArticleRepository;
 import org.example.recipesworking.service.ArticleService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +46,7 @@ public class FoodServiceImpl implements FoodService {
 //            Integer grams = m.getValue();
 //            articleService.updateArticleGrams(articleId, grams);
 //        }
-        meal.forEach(articleService::updateArticleGrams);
+        meal.forEach(articleService::removeArticleGrams);
 
     }
 

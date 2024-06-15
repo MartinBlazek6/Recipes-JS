@@ -38,13 +38,19 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public Article createArticle(ArticleRecord articleRecord) {
-        Article article = new Article(
-                articleRecord.name(),
-                articleRecord.amountInGramPerArticle(),
-                articleRecord.quantity(),
-                articleRecord.caloriesPerGram());
+        boolean articleIsPresent = articleRepository.findByNameAndCaloriesPerGram(articleRecord.name(), articleRecord.caloriesPerGram()).isPresent();
 
-        return articleRepository.save(article);
+        if (articleIsPresent){
+            Article article = articleRepository.findByNameAndCaloriesPerGram(articleRecord.name(), articleRecord.caloriesPerGram()).get();
+            return raiseQuantityOfArticleGrams(article, articleRecord.amountInGramPerArticle() * articleRecord.quantity());
+        }
+            Article article = new Article(
+                    articleRecord.name(),
+                    articleRecord.amountInGramPerArticle(),
+                    articleRecord.quantity(),
+                    articleRecord.caloriesPerGram());
+
+            return articleRepository.save(article);
     }
 
     @Override
@@ -57,7 +63,7 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public Article updateArticleGrams(Long articleId, Integer gramsToBeRemoved) {
+    public Article removeArticleGrams(Long articleId, Integer gramsToBeRemoved) {
         Article article = articleRepository.getReferenceById(articleId);
         int articleGrams = article.getAmountInGram();
         if (gramsToBeRemoved <= articleGrams) {
@@ -65,6 +71,12 @@ public class ArticleServiceImp implements ArticleService {
             return articleRepository.save(article);
         }
         throw new ArticleGramsOutOfBoundsException(String.format("Actual grams %d but to be removed was %d", article.getAmountInGram(), gramsToBeRemoved));
+    }
+
+    @Override
+    public Article raiseQuantityOfArticleGrams(Article article, Integer gramsToBeRaised) {
+            article.setAmountInGram(article.getAmountInGram() + gramsToBeRaised);
+            return articleRepository.save(article);
     }
 
     @Override
