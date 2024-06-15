@@ -1,6 +1,8 @@
 package org.example.recipesworking.service.implementation;
 
 import lombok.RequiredArgsConstructor;
+import org.example.recipesworking.exceptions.ArticleGramsOutOfBoundsException;
+import org.example.recipesworking.exceptions.ArticleNotFoundException;
 import org.example.recipesworking.model.Article;
 import org.example.recipesworking.model.dto.ArticleDto;
 import org.example.recipesworking.model.rcord.ArticleRecord;
@@ -47,18 +49,26 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public void deleteArticle(Long articleId) {
-        articleRepository.deleteById(articleId);
+        boolean articleIsPresent = articleRepository.findById(articleId).isPresent();
+        if (articleIsPresent){
+            articleRepository.deleteById(articleId);
+        }
+        throw new ArticleNotFoundException(String.format("Article with id: %s was not found", articleId));
     }
 
     @Override
-    public Article updateArticleGrams(Long articleId, Integer gramsToBeRemoved){
+    public Article updateArticleGrams(Long articleId, Integer gramsToBeRemoved) {
         Article article = articleRepository.getReferenceById(articleId);
-        article.setAmountInGram(article.getAmountInGram() - gramsToBeRemoved);
-        return articleRepository.save(article);
+        int articleGrams = article.getAmountInGram();
+        if (gramsToBeRemoved <= articleGrams) {
+            article.setAmountInGram(article.getAmountInGram() - gramsToBeRemoved);
+            return articleRepository.save(article);
+        }
+        throw new ArticleGramsOutOfBoundsException(String.format("Actual grams %d but to be removed was %d", article.getAmountInGram(), gramsToBeRemoved));
     }
 
     @Override
-    public List<Article> getAllArticles(){
+    public List<Article> getAllArticles() {
         return articleRepository.findAll();
     }
 }

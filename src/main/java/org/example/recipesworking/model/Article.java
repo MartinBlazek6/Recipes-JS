@@ -1,12 +1,15 @@
 package org.example.recipesworking.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashMap;
 
 @Entity
 @NoArgsConstructor
+@Getter
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

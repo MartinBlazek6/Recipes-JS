@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Articles</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<h1>Articles</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Amount (grams)</th>
+        <th>Calories per Gram</th>
+        <th>Total Calories</th>
+    </tr>
+    </thead>
+    <tbody>
+    <div class="articleTable">
+        <h1>Articles</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Amount (grams)</th>
+                <th>Calories per Gram</th>
+                <th>Total Calories</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="article : ${articles}">
+                <td th:text="${article.name}">Name</td>
+                <td th:text="${article.amountInGram}">Amount</td>
+                <td th:text="${article.caloriesPerGram}">Calories per Gram</td>
+                <td th:text="${article.getCalories(article.amountInGram)}">Total Calories</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </tbody>
+</table>
+</body>
+</html>
