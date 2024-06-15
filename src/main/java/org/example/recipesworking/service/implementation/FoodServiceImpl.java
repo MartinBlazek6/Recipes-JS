@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.recipesworking.model.Article;
 import org.example.recipesworking.repository.ArticleRepository;
 import org.example.recipesworking.service.ArticleService;
+import org.example.recipesworking.service.FoodService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

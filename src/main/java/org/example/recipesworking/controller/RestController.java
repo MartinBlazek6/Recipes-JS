@@ -8,14 +8,13 @@ import org.example.recipesworking.model.Article;
 import org.example.recipesworking.model.dto.ArticleDto;
 import org.example.recipesworking.model.rcord.ArticleRecord;
 import org.example.recipesworking.service.ArticleService;
-import org.example.recipesworking.service.implementation.FoodService;
+import org.example.recipesworking.service.FoodService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
 
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor

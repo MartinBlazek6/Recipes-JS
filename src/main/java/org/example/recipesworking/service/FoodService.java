@@ -1,4 +1,4 @@
-package org.example.recipesworking.service.implementation;
+package org.example.recipesworking.service;
 
 import org.springframework.stereotype.Service;
 

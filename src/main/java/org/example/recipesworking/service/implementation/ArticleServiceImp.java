@@ -21,7 +21,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public List<Article> findAllByBasketId(Long baskedId) {
-        return List.of();
+        return List.of(); // todo opravit
     }
 
     @Override
