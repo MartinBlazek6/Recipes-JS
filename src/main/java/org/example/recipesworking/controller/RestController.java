@@ -67,7 +67,7 @@ public class RestController {
         try {
             articleService.deleteArticle(articleId);
         } catch (ArticleNotFoundException e) {
-            log.error(e.getMessage());
+            log.error(e.getMessage())
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
