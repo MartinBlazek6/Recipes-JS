@@ -7,5 +7,7 @@ import java.util.HashMap;
 @Service
 public interface FoodService {
 
-    Integer caloriesFromMeal(HashMap<Long, Integer> meal);
+    Integer eatMealAndUpdateStorage(HashMap<Long, Integer> meal);
+
+    Integer getCaloriesFromMeal(HashMap<Long, Integer> meal);
 }

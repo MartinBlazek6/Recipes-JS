@@ -1,6 +1,9 @@
 package org.example.recipesworking.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.example.recipesworking.exceptions.ArticleGramsOutOfBoundsException;
+import org.example.recipesworking.exceptions.ArticleNotFoundException;
 import org.example.recipesworking.model.Article;
 import org.example.recipesworking.model.dto.ArticleDto;
 import org.example.recipesworking.model.rcord.ArticleRecord;
@@ -11,9 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
+@Slf4j
+@RequestMapping("/api/v1")
 public class RestController {
 
     private final ArticleService articleService;
@@ -35,26 +42,45 @@ public class RestController {
     }
 
     @GetMapping("/mealCalories")
-    public ResponseEntity<String> calories(@RequestBody HashMap<Long,Integer> meal) {
+    public ResponseEntity<String> calories(@RequestBody HashMap<Long, Integer> meal) {
 
-        Integer calories = foodService.caloriesFromMeal(meal);
+        Integer calories = foodService.getCaloriesFromMeal(meal);
 
-        return new ResponseEntity<>(calories / 1000 + " kcal",HttpStatus.OK);
+        return new ResponseEntity<>(calories / 1000 + " kcal", HttpStatus.OK);
     }
 
     @PostMapping("/eatMeat")
-    public ResponseEntity<String> eatMeat(@RequestBody HashMap<Long,Integer> meal) {
+    public ResponseEntity<String> eatMeat(@RequestBody HashMap<Long, Integer> meal) {
+        Integer calories = 0;
+        try {
+            calories = foodService.eatMealAndUpdateStorage(meal);
+        } catch (ArticleGramsOutOfBoundsException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
 
-        Integer calories = foodService.caloriesFromMeal(meal);
-
-        return new ResponseEntity<>(calories / 1000 + " kcal",HttpStatus.OK);
+        return new ResponseEntity<>(calories + " cal", HttpStatus.OK);
     }
 
 
     @DeleteMapping("/deleteArticle")
-    public ResponseEntity<String> deleteArticle(@RequestParam Long articleId){
-        articleService.deleteArticle(articleId);
+    public ResponseEntity<String> deleteArticle(@RequestParam Long articleId) {
+        try {
+            articleService.deleteArticle(articleId);
+        } catch (ArticleNotFoundException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
 
-        return new ResponseEntity<>("Deleted",HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/articles")
+    public ResponseEntity<List<Article>> getAllArticles() {
+        List<Article> articleList = articleService.getAllArticles();
+
+        return new ResponseEntity<>(articleList, HttpStatus.OK);
+    }
+
 }
