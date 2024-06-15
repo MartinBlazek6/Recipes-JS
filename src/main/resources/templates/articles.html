@@ -6,38 +6,57 @@
     <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-<table>
-    <tbody>
-    <div class="articleTable">
-        <h1>Articles</h1>
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Amount (grams)</th>
-                <th>Calories per Gram</th>
-                <th>Total Calories</th>
-                <th>♻️</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="article : ${articles}">
-                <td th:text="${article.name}">Name</td>
-                <td th:text="${article.amountInGram}">Amount</td>
-                <td th:text="${article.caloriesPerGram}">Calories per Gram</td>
-                <td th:text="${article.getCalories(article.amountInGram)}">Total Calories</td>
-                <td>
-                    <form th:action="@{/deleteArticle}" method="POST">
-<!--                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
-                        <input type="hidden" name="articleId" th:value="${article.articleId}" />
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<div class="container">
+    <h1>Articles</h1>
+
+    <div class="form-container">
+        <form class="article-form" th:action="@{/createArticleR}" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+                <label for="amountInGramPerArticle">Amount (grams):</label>
+                <input type="number" id="amountInGramPerArticle" name="amountInGramPerArticle" required />
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required />
+            </div>
+            <div class="form-group">
+                <label for="caloriesPerGram">Calories per Gram:</label>
+                <input type="number" id="caloriesPerGram" name="caloriesPerGram" required />
+            </div>
+            <button type="submit">Add Article</button>
+        </form>
     </div>
-    </tbody>
-</table>
+
+    <table class="article-table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Amount (grams)</th>
+            <th>Calories per Gram</th>
+            <th>Total Calories</th>
+            <th>♻️</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article : ${articles}">
+            <td th:text="${article.name}">Name</td>
+            <td th:text="${article.amountInGram}">Amount</td>
+            <td th:text="${article.caloriesPerGram}">Calories per Gram</td>
+            <td th:text="${article.getCalories(article.amountInGram)}">Total Calories</td>
+            <td>
+                <form th:action="@{/deleteArticle}" method="POST">
+                    <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+                    <input type="hidden" name="articleId" th:value="${article.articleId}" />
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
