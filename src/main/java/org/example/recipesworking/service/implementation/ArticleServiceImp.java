@@ -56,4 +56,9 @@ public class ArticleServiceImp implements ArticleService {
         article.setAmountInGram(article.getAmountInGram() - gramsToBeRemoved);
         return articleRepository.save(article);
     }
+
+    @Override
+    public List<Article> getAllArticles(){
+        return articleRepository.findAll();
+    }
 }

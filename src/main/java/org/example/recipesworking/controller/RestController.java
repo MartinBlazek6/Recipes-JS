@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class RestController {
     @GetMapping("/mealCalories")
     public ResponseEntity<String> calories(@RequestBody HashMap<Long,Integer> meal) {
 
-        Integer calories = foodService.caloriesFromMeal(meal);
+        Integer calories = foodService.getCaloriesFromMeal(meal);
 
         return new ResponseEntity<>(calories / 1000 + " kcal",HttpStatus.OK);
     }
@@ -45,16 +47,24 @@ public class RestController {
     @PostMapping("/eatMeat")
     public ResponseEntity<String> eatMeat(@RequestBody HashMap<Long,Integer> meal) {
 
-        Integer calories = foodService.caloriesFromMeal(meal);
+        Integer calories = foodService.eatMealAndUpdateStorage(meal);
 
         return new ResponseEntity<>(calories / 1000 + " kcal",HttpStatus.OK);
     }
 
 
     @DeleteMapping("/deleteArticle")
-    public ResponseEntity<String> deleteArticle(@RequestParam Long articleId){
+    public ResponseEntity<String> deleteArticle(@RequestParam Long articleId) {
         articleService.deleteArticle(articleId);
 
         return new ResponseEntity<>("Deleted",HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/articles")
+    public ResponseEntity<List<Article>> getAllArticles() {
+        List<Article> articleList = articleService.getAllArticles();
+
+        return new ResponseEntity<>(articleList, HttpStatus.OK);
+    }
+
 }

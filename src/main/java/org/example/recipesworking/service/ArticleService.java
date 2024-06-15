@@ -48,4 +48,11 @@ public interface ArticleService {
      * @return the updated article
      */
     Article updateArticleGrams(Long articleId, Integer gramsToBeRemoved);
+
+    /**
+     * Gets all articles from storage
+     *
+     * @return List of Articles from storage
+     */
+    List<Article> getAllArticles();
 }

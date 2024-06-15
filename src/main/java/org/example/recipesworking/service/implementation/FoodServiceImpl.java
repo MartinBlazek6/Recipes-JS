@@ -7,6 +7,7 @@ import org.example.recipesworking.service.ArticleService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class FoodServiceImpl implements FoodService{
     private final ArticleService articleService;
 
     @Override
-    public Integer caloriesFromMeal(HashMap<Long, Integer> meal){
+    public Integer eatMealAndUpdateStorage(HashMap<Long, Integer> meal){
         Integer calories = 0;
 
       for (var m : meal.entrySet()) {
@@ -26,6 +27,20 @@ public class FoodServiceImpl implements FoodService{
           calories += getCaloriesFromArticle(articleId,grams);
       }
       deleteEatenFood(meal);
+        return calories;
+
+    }
+
+    @Override
+    public Integer getCaloriesFromMeal(HashMap<Long, Integer> meal){
+        Integer calories = 0;
+
+        for (var m : meal.entrySet()) {
+            Long articleId = m.getKey();
+            Integer grams = m.getValue();
+
+            calories += getCaloriesFromArticle(articleId,grams);
+        }
         return calories;
 
     }
@@ -44,4 +59,5 @@ public class FoodServiceImpl implements FoodService{
 
         return article.getCalories(grams);
     }
+
 }
