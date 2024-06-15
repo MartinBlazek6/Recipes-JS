@@ -135,3 +135,7 @@ header nav ul li a:hover {
         h1 {
             text-align: center;
         }
+
+        button {
+        cursor: pointer;
+        }

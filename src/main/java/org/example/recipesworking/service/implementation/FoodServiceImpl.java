@@ -21,14 +21,8 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public Integer eatMealAndUpdateStorage(HashMap<Long, Integer> meal) {
-        Integer calories = 0;
+        Integer calories = getCaloriesFromMeal(meal);
 
-        for (var m : meal.entrySet()) {
-            Long articleId = m.getKey();
-            Integer grams = m.getValue();
-
-            calories += getCaloriesFromArticle(articleId, grams);
-        }
         deleteEatenFood(meal);
         log.info("Meal deleted {}", meal);
         return calories;
@@ -36,7 +30,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public Integer getCaloriesFromMeal(HashMap<Long, Integer> meal) {
-        Integer calories = 0;
+        int calories = 0;
 
         for (var m : meal.entrySet()) {
             Long articleId = m.getKey();
@@ -49,11 +43,12 @@ public class FoodServiceImpl implements FoodService {
     }
 
     private void deleteEatenFood(HashMap<Long, Integer> meal) {
-        for (var m : meal.entrySet()) {
-            Long articleId = m.getKey();
-            Integer grams = m.getValue();
-                articleService.updateArticleGrams(articleId, grams);
-        }
+//        for (var m : meal.entrySet()) {
+//            Long articleId = m.getKey();
+//            Integer grams = m.getValue();
+//            articleService.updateArticleGrams(articleId, grams);
+//        }
+        meal.forEach(articleService::updateArticleGrams);
 
     }
 

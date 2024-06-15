@@ -20,6 +20,7 @@ import java.util.Stack;
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/api/v1")
 public class RestController {
 
     private final ArticleService articleService;
